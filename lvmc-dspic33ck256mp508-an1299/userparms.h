@@ -18,8 +18,6 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
         
-
-
 /* Definition for tuning - if active the speed reference is a ramp with a 
 constant slope. The slope is determined by TUNING_DELAY_RAMPUP constant.
  the software ramp implementing the speed increase has a constant slope, 
@@ -36,7 +34,6 @@ constant slope. The slope is determined by TUNING_DELAY_RAMPUP constant.
     #define TUNING_DELAY_RAMPUP   0xF      
 #endif
 
-
 /* open loop continuous functioning */
 /* closed loop transition disabled  */
 #undef OPEN_LOOP_FUNCTIONING
@@ -44,6 +41,7 @@ constant slope. The slope is determined by TUNING_DELAY_RAMPUP constant.
 /* Definition for torque mode - for a separate tuning of the current PI
 controllers, tuning mode will disable the speed PI controller */
 #undef TORQUE_MODE
+
 /* FOC with single shunt is enabled */
 /* undef to work with dual Shunt  */    
 #define SINGLE_SHUNT     
@@ -54,27 +52,31 @@ controllers, tuning mode will disable the speed PI controller */
 /********************  support xls file definitions begin *********************/
 /* The following values are given in the xls attached file */
     
-    
-/*Update the following motor tuning parameters while using LVMC build configuration*/
-    
 /* Motor's number of pole pairs */
 #define NOPOLESPAIRS 5
+
 /* Nominal speed of the motor in RPM */
 #define NOMINAL_SPEED_RPM    2000 
+
 /* Maximum speed of the motor in RPM - given by the motor's manufacturer */
 #define MAXIMUM_SPEED_RPM    3500 
 
-/* The following values are given in the xls attached file */
+/* The following values are calculated in the xls sheet */
+/* Updated constants based on the output parameters */
 #define NORM_CURRENT_CONST     0.000671
-/* normalized ls/dt value */
-#define NORM_LSDTBASE 8129
-/* normalized rs value */
-#define NORM_RS  9044
+
+/* normalized ls/dt value - updated from your calculation */
+#define NORM_LSDTBASE 5419
+
+/* normalized rs value - updated from your calculation */
+#define NORM_RS  5419
+
 /* the calculation of Rs gives a value exceeding the Q15 range so,
  the normalized value is further divided by 2 to fit the 32768 limit
  this is taken care in the estim.c where the value is implied
  normalized inv kfi at base speed */
-#define NORM_INVKFIBASE  7956
+#define NORM_INVKFIBASE  13440
+
 /* the calculation of InvKfi gives a value which not exceed the Q15 limit
    to assure that an increase of the term with 5 is possible in the lookup table
    for high flux weakening the normalized is initially divided by 2
@@ -86,12 +88,11 @@ controllers, tuning mode will disable the speed PI controller */
 /* di = i(t1)-i(t2) limitation
  high speed limitation, for dt 50us 
  the value can be taken from attached xls file */
-#define D_ILIMIT_HS 956
+#define D_ILIMIT_HS 2294
 /* low speed limitation, for dt 8*50us */
-#define D_ILIMIT_LS 4369
+#define D_ILIMIT_LS 9175
 
 /**********************  support xls file definitions end *********************/
-
 
 /* Filters constants definitions  */
 /* BEMF filter for d-q components @ low speeds */
@@ -100,7 +101,6 @@ controllers, tuning mode will disable the speed PI controller */
 #define KFILTER_ESDQ_FW 164
 /* Estimated speed filter constatn */
 #define KFILTER_VELESTIM 2*374
-
 
 /* initial offset added to estimated value, 
  when transitioning from open loop to closed loop 
@@ -239,8 +239,6 @@ minimum value accepted */
 #define	INVKFI_SPEED16          15904       /* ~5340 RPM */
 #define	INVKFI_SPEED17          16387       /* ~5500 RPM */
 
-
-
 /* the following values indicate the Ls variation with speed 
  please consult app note for details on tuning */
 #define LS_OVER2LS0_SPEED0      Q15(0.5)    /* up to 2800 RPM */
@@ -261,7 +259,6 @@ minimum value accepted */
 #define LS_OVER2LS0_SPEED15     Q15(0.28)   /* ~5180 RPM */
 #define LS_OVER2LS0_SPEED16     Q15(0.27)   /* ~5340 RPM */
 #define LS_OVER2LS0_SPEED17     Q15(0.26)   /* ~5500 RPM */
-
 
 #ifdef __cplusplus
 }
